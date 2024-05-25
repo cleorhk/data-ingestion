@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: nyc_taxi_db
+    environment:
+      POSTGRES_DB: nyc_taxi
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - 8080:8080
+
+  loader:
+    build: .
+    depends_on:
+      - db
+
+volumes:
+  db_data:
